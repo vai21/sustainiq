@@ -1,37 +1,60 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen() {
+  const [text, onChangeText] = useState('Useless Text');
+  const [selectedValue, setSelectedValue] = useState('');
+
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@/assets/images/sustainiq.png')}
           style={styles.reactLogo}
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">SustainIQ</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText type="subtitle">Plan your meal</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={text}
+          />
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Plan your portion</ThemedText>
+        <ThemedText>
+          <View style={styles.container}>
+            <Picker
+              selectedValue={selectedValue}
+              style={styles.picker}
+              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+            >
+              <Picker.Item label="Select Portion" value="" />
+              <Picker.Item label="Apple" value="apple" />
+              <Picker.Item label="Banana" value="banana" />
+              <Picker.Item label="Cherry" value="cherry" />
+            </Picker>
+            {selectedValue ? (
+              <Text style={styles.selectedText}>Selected: {selectedValue}</Text>
+            ) : (
+              <Text style={styles.placeholderText}>No fruit selected</Text>
+            )}
+          </View>
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -65,10 +88,47 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
+    height: 95,
+    width: 400,
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: '#FFF'
+  },
+  // picker: {
+  //   width: '100%',
+  //   height: 40,
+  //   backgroundColor: '#FFF'
+  // },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  label: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  picker: {
+    height: 100,
+    width: 300,
+  },
+  selectedText: {
+    marginTop: 20,
+    fontSize: 16,
+    color: 'green',
+  },
+  placeholderText: {
+    marginTop: 20,
+    fontSize: 16,
+    color: 'gray',
   },
 });

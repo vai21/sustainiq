@@ -1,16 +1,54 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Image, StyleSheet, View } from 'react-native'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
+import { HelloWave } from '@/components/HelloWave'
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import { useState } from 'react'
+import { Picker } from '@react-native-picker/picker'
+import DateTimePicker from 'react-native-ui-datepicker'
+import * as Progress from 'react-native-progress';
+import dayjs from 'dayjs'
+
 
 export default function HomeScreen() {
-  const [text, onChangeText] = useState('Useless Text');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [iotName, setIotName] = useState('breakfast')
+  const [sensors, setSensors] = useState('[]')
+  const [checkDate, setCheckDate] = useState(dayjs());
 
+
+  const checkSensors = () => {
+    Alert.alert('Simple Button pressed')
+    const payload = []
+    payload.push(
+      {
+        checkDate,
+        iotName,
+      }
+    )
+    const payloadString = JSON.stringify([...JSON.parse(sensors), ...payload])
+    setSensors(payloadString)
+  }
+
+  const renderSensors = () => {
+    const arrMeals = JSON.parse(sensors)
+    return arrMeals.map((meal: any, index: any) => {
+      const rand1 = Math.floor(Math.random() * 11);
+      return (
+        <View key={`vc-${index}`}>
+          <ThemedText key={`sd-${index}`}>
+            Date: {dayjs(meal.checkDate).format()}
+          </ThemedText>
+          <ThemedText key={`iot-${index}`}>
+            IoT Name: {meal.iotName}
+          </ThemedText>
+          <ThemedText key={`c-${index}`}>
+            Contamination: <Progress.Circle size={50} progress={rand1 /100} showsText={true} />
+          </ThemedText>
+        </View>
+      )
+    })
+  }
 
   return (
     <ParallaxScrollView
@@ -25,53 +63,48 @@ export default function HomeScreen() {
         <ThemedText type="title">SustainIQ</ThemedText>
         <HelloWave />
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Plan your meal</ThemedText>
-        <ThemedText>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
+        <View style={styles.container}>
+          <DateTimePicker
+            mode="single"
+            date={checkDate}
+            onChange={(params: any) => setCheckDate(params.date)}
           />
-        </ThemedText>
+        </View>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Plan your portion</ThemedText>
+        <ThemedText type="subtitle">IoT Name</ThemedText>
         <ThemedText>
           <View style={styles.container}>
             <Picker
-              selectedValue={selectedValue}
+              selectedValue={iotName}
               style={styles.picker}
-              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              onValueChange={(itemValue) => setIotName(itemValue)}
             >
-              <Picker.Item label="Select Portion" value="" />
-              <Picker.Item label="Apple" value="apple" />
-              <Picker.Item label="Banana" value="banana" />
-              <Picker.Item label="Cherry" value="cherry" />
+              <Picker.Item label="Select IoT" value="" />
+              <Picker.Item label="F1-1" value="f1-1" />
+              <Picker.Item label="F1-2" value="f1-2" />
+              <Picker.Item label="F2-1" value="f2-1" />
             </Picker>
-            {selectedValue ? (
-              <Text style={styles.selectedText}>Selected: {selectedValue}</Text>
-            ) : (
-              <Text style={styles.placeholderText}>No fruit selected</Text>
-            )}
           </View>
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
+        <View style={styles.button}>
+          <Button
+            title="CHECK"
+            onPress={() => checkSensors()}
+          />
+        </View>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        {/* <View>
+          <ThemedText>
+            {sensors}
+          </ThemedText>
+        </View> */}
+        {renderSensors()}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -95,18 +128,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   input: {
-    width: '100%',
+    width: 300,
     height: 40,
-    margin: 12,
     borderWidth: 1,
-    padding: 10,
     backgroundColor: '#FFF'
   },
-  // picker: {
-  //   width: '100%',
-  //   height: 40,
-  //   backgroundColor: '#FFF'
-  // },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -118,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   picker: {
-    height: 100,
+    height: 40,
     width: 300,
   },
   selectedText: {
@@ -130,5 +156,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     color: 'gray',
+  },
+  button: {
+    flex: 1,
+    width: 300,
+    backgroundColor: '#fff',
   },
 });

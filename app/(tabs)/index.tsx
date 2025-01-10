@@ -43,7 +43,7 @@ export default function HomeScreen() {
             IoT Name: {meal.iotName}
           </ThemedText>
           <ThemedText key={`c-${index}`}>
-            Contamination: <Progress.Circle size={50} progress={rand1 /100} showsText={true} />
+            Contamination: <Progress.Bar width={100} progress={rand1 /100} /> {rand1}%
           </ThemedText>
         </View>
       )

@@ -1,4 +1,4 @@
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Text } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -17,30 +17,37 @@ export default function TabTwoScreen() {
         />
       }>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">MRFs Food Waste Contamination</ThemedText>
+        <ThemedText type="subtitle">
+          MRFs Food Waste Contamination
+        </ThemedText>
         <ThemedText>
           Date: {dayjs().format('YYYY-MM-DD HH:mm')}
         </ThemedText>
         <ThemedText>
           Facility 1
         </ThemedText>
-        <Progress.Bar progress={0.3} width={250} /> 30 %
+        <Progress.Bar progress={0.3} width={250} /> 
+        <Text>30 %</Text>
         <ThemedText>
           Facility 2
         </ThemedText>
-        <Progress.Bar progress={0.2} width={250} /> 20 %
+        <Progress.Bar progress={0.2} width={250} />
+        <Text>20 %</Text>
         <ThemedText>
           Facility 3
         </ThemedText>
-        <Progress.Bar progress={0.5} width={250} /> 50 %
+        <Progress.Bar progress={0.5} width={250} />
+        <Text>50 %</Text>
         <ThemedText>
           Facility 4
         </ThemedText>
-        <Progress.Bar progress={0.9} width={250} /> 90 %
+        <Progress.Bar progress={0.9} width={250} />
+        <Text>90 %</Text>
         <ThemedText>
           Facility 5
         </ThemedText>
-        <Progress.Bar progress={0.1} width={250} /> 10 %
+        <Progress.Bar progress={0.1} width={250} />
+        <Text>10 %</Text>
       </ThemedView>
     </ParallaxScrollView>
   );

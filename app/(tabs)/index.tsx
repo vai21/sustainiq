@@ -18,7 +18,7 @@ export default function HomeScreen() {
 
 
   const checkSensors = () => {
-    Alert.alert('Simple Button pressed')
+    // Alert.alert('Simple Button pressed')
     const payload = []
     payload.push(
       {
@@ -65,7 +65,7 @@ export default function HomeScreen() {
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
-        <View style={styles.container}>
+        <View style={styles.containerDatePicker}>
           <DateTimePicker
             mode="single"
             date={checkDate}
@@ -76,7 +76,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">IoT Name</ThemedText>
         <ThemedText>
-          <View style={styles.container}>
+          <View style={styles.containerOptions}>
             <Picker
               selectedValue={iotName}
               style={styles.picker}
@@ -133,28 +133,36 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#FFF'
   },
-  container: {
+  containerDatePicker: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    textAlign: 'center',
+    width: '100%',
+    height: '100%'
+  },
+  containerOptions: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    textAlign: 'center',
   },
   label: {
     fontSize: 18,
     marginBottom: 10,
   },
   picker: {
-    height: 40,
-    width: 300,
+    height: '100%',
+    minWidth: 300,
+    width: '100%',
   },
   selectedText: {
     marginTop: 20,
-    fontSize: 16,
     color: 'green',
   },
   placeholderText: {
     marginTop: 20,
-    fontSize: 16,
     color: 'gray',
   },
   button: {
